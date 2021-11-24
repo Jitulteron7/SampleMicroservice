@@ -1,0 +1,59 @@
+apiVersion: skaffold/v2beta19
+kind: Config
+deploy: 
+  kubectl:
+    manifests: 
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: jitulteron/client
+      context: client
+      docker :
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
+    - image: jitulteron/comments
+      context: comments
+      docker :
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: jitulteron/event-bus
+      context: event-bus
+      docker :
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '*.js'
+            dest: .                
+    - image: jitulteron/posts
+      context: posts
+      docker :
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: jitulteron/query
+      context: query
+      docker :
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '*.js'
+            dest: .            
+    - image: jitulteron/moderation
+      context: moderation
+      docker :
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '*.js'
+            dest: . 
+              
